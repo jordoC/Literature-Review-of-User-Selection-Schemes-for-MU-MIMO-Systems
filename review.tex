@@ -1,0 +1,39 @@
+\documentclass[11pt]{report}
+\usepackage{standalone}
+\usepackage[margin=0.75in, headheight=20pt]{geometry}
+
+\usepackage{amsmath}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{.25em}
+\renewcommand{\baselinestretch}{1.0}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\rhead{ Clarke | Blostein | Queen's University}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\usepackage{courier}
+
+\usepackage{etoolbox}
+\patchcmd{\thebibliography}{\chapter*}{\section*}{}{}
+
+
+\title{Literature Review of User Selection Schemes for MU-MIMO Systems}
+\author{J.E. Clarke, Dr. S.D. Blostein | Queen's University}
+\date{May, 2018}
+
+\begin{document}
+	\maketitle
+	\newpage
+    \input{papers/jeong2015}	
+	\newpage	
+ 	\begingroup
+ 		\renewcommand{\section}[2]{}%
+ 		\bibliographystyle{IEEEtran}
+ 		\bibliography{../user_sel_lit}
+ 	\endgroup
+\end{document}
