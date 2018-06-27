@@ -1,0 +1,72 @@
+The focus of this study is motivated by developing an alternative to dirty paper coding (DPC) that is less computationally expensive. It is postulated that DPC is an optimal scheme in terms of throughput maximization in so far as its reduction of interference between users in a MU-MIMO network. The drawback of this coding scheme is it's high computational complexity. Authors present zero-forcing beamforming (ZFBF) scheme in coordination with semi-orthogonal user selection scheme as a computationally simplistic alternative to DPC.
+
+Authors argue that as the number of users grows, the performance of SUS-ZFBF approaches DPC. The reason for this asymptotic relationship are two-fold. Firstly, assuming a Rayleigh-fading channel, the transmitter has more choices to avoid poor channel conditions. The user with the best SNR exhibits an SNR a factor of $\text{log}(K)$ higher than the average user SNR (where $K$ is the number of users present in the environment). Secondly, the diversity provided by user separation offers increased diversity. Separation of users provides more isolation between users, resulting in lower interference, and more spatially independent choices for the user to transmit to, thus enhancing overall capacity.
+
+Paper develops good channel model. Rates for TDMA, DPC, and ZFBF schemes are well-developed.
+
+It is identified that optimal SUS requires an exhaustive search on the set of STAs present. This search becomes in feasible as this set gets large. Therefore, the authors offer an algorithm with reduced complexity to find a sub-optimal SUS scheme.
+
+\textbf{SUS Scheme presented by Yoo and Goldstein in \cite{1603708}:}
+The algorithm developed in \cite{1603708} only identifies one group: it does not identify all the potential SUS groups. Therefore, an extension of this algorithm is required for our study. At minimum, we must have a set of viable SUS groups that belong to one AP. A more exhaustive search would return all the viable sets of SUS groups. 
+
+The utility of such an exhaustive search is limited, especially when considering the computational cost of executing such a search.
+Assume the following definitions:
+\begin{itemize}
+    \item Let $\mathcal{C}$ denote the set of STAs available to form SUS groups
+    \item Let $K = \vert \mathcal{C} \vert $
+    \item Let $k \in \mathcal{C}$ be an arbitrary STA
+    \item Let $M = $ the number of antennas at an arbitrary AP, $a$
+    \item Let $\textbf{h}_k$ be the $M \times 1$ channel vector for $k$
+    \item Let $i$ be the variable of iteration
+    \item Let $\mathcal{T}_i$ be the set of STAs who are semi-orthogonal candidates to be added to an SUS group at the $i^{th}$ iteration
+    \item Let $\mathcal{S}_o$ be the sub-optimal SUS group of STAs
+    \item Let $\alpha$ be the scalar representing the orthogonality requirement of the SUS group
+\end{itemize}
+\begin{enumerate}
+    \item Initialization:
+    \begin{subequations}
+        \begin{align}
+            \mathcal{T}_1 &= \lbrace 1 \ldots K \rbrace = \mathcal{C}\\
+            i &= 1\\
+            \mathcal{S}_0 &= \lbrace \emptyset \rbrace
+        \end{align}
+    \end{subequations}
+    Start by populating the candidate set with the entire set of STAs available to the AP. Initialize the SUS group to be an empty set.
+    \item Calculate orthogonal component of $\textbf{h}_k$:\\
+    For $\forall \ k \in \mathcal{T}_i$:
+    \begin{subequations}
+        \begin{align}
+            \textbf{g}_k &= \textbf{h}_k - \sum_{j=1}^{i-1}\frac{\textbf{h}_k\textbf{g}_j^*}{\Vert \textbf{g}_j \Vert^2}\textbf{g}_j \\
+            &= \textbf{h}_k\bigg(\textbf{I}-\sum_{j=1}^{i-1}\frac{\textbf{g}_k^*\textbf{g}_j}{\Vert \textbf{g}_j \Vert^2}\bigg)
+        \end{align}
+    \end{subequations}
+    This expression represents the projection of the channel vector $\textbf{h}_k$ onto the orthogonal complement of the span of space formed by $\text{span}(\textbf{g}_1\ldots \textbf{g}_{i-1})$. Initially, $\textbf{g}_k = \textbf{h}_k \ \forall \ k \in \mathcal{T}_1$. Then as the algorithm progresses, $\textbf{g}_k$ represents an inverse degree of orthogonality. This can be seen in Eq. (2a): as the second term $\longrightarrow 0$, representing orthogonality between $\textbf{h}_k$ and $\textbf{g}_j$, $\textbf{g}_k$ gets large.
+    
+    \item Select the best STA representing the highest degree of orthogonality:
+    \begin{subequations}
+        \begin{align}
+            \pi(i) &= \arg\max_{k\in \mathcal{T}_i}\Vert \textbf{g}_k \Vert\\
+            \mathcal{S}_o &\longleftarrow \mathcal{S}_o \cup \pi(i)\\
+            \textbf{h}_i &= \textbf{h}_{\pi(i)}\\
+            \textbf{g}_i &= \textbf{g}_{\pi(i)}
+        \end{align}
+    \end{subequations}
+    In this step, the STA with the hightest degree of orthogonality to the remaining candidates is selected as the next STA to be added to the SUS group, $\mathcal{S}_o$. Channel and orthogonality vectors are updated to reflect this selection.
+    
+    \item Update the set of candidate STAs based on semi-orthogonality constraint:
+    \begin{subequations}
+        \begin{align}
+            \mathcal{T}_{i+1} &= \bigg\lbrace k\in \mathcal{T}_i,\ k\neq \pi(i)\ \big \vert \ \frac{\vert \textbf{h}_k\textbf{g}_i^*\vert}{\Vert \textbf{h}_k \Vert \Vert \textbf{g}_i\Vert} < \alpha  \bigg\rbrace \\
+            i &\longleftarrow i+1
+        \end{align}
+    \end{subequations}
+    The set of candidate STAs is updated for the next iteration of the algorithm by  removing any STAs that do not meet a minimum orthogonality requirement, determined by $\alpha$.
+\end{enumerate}
+
+Note that \cite{1603708} goes on to develop a ZFBF scheme based on the SUS parameters. The ZFBF scheme presented decomposes the channel matrex of the SUS group, $\textbf{H}(\mathcal{S})$, into diagonal, lower triangle, and unitary matrices which depend on $\alpha$, $\textbf{g}_k$. Once the decomposition is performed, a realizable ZFBF scheme is presented. Performance is lower-bounded based on orthogonality arguments.
+
+Complexity analysis is provided, which is likely useful in justifying a SUS scheme opposed to other schemes (such as DPC, TDMA etc.).
+
+Results show that there is a convex relationship between $\alpha$ and sum rate. This makes sense since there is a sweet spot when trading off quantity vs. quality associated with $\alpha$.
+
+The work goes on to consider fairness in its scheduling schemes. This will likely be of interest at some point.
