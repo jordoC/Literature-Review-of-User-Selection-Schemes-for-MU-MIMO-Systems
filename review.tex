@@ -1,4 +1,4 @@
-\documentclass[11pt]{report}
+\documentclass[11pt]{article}
 \usepackage{standalone}
 \usepackage[margin=0.75in, headheight=20pt]{geometry}
 
@@ -18,8 +18,14 @@
 
 \usepackage{courier}
 
+\usepackage[]{algorithm2e}
+\usepackage{mathrsfs}
+\usepackage{eufrak}
+
 \usepackage{etoolbox}
 \patchcmd{\thebibliography}{\chapter*}{\section*}{}{}
+
+
 
 
 \title{Semi-orthogonal User Selection Schemes for MU-MIMO Systems\\ Literature Review and Algorithm Development}
@@ -42,8 +48,11 @@
             \input{papers/yoo2006}
     
     \section{Proposed Semi-orthogonal User Selection Algorithms}
+        \input{algs/sus_intro}
         \subsection{Algorithm based on Yoo and Goldstein \cite{1603708}}
-            \input{alg/yoo2006}
+            \input{algs/yoo2006}
+        \subsection{Exhaustive tree-based algorithm}
+            \input{algs/exhaustive_tree.tex}
 	
     
     \newpage	
