@@ -10,16 +10,20 @@ Assume the following definitions:
     \item Let $\textbf{h}_k$ be the $M \times 1$ channel vector for $k$
     \item Let $i$ be the variable of iteration
     \item Let $\mathcal{T}_i$ be the set of STAs who are semi-orthogonal candidates to be added to an SUS group at the $i^{th}$ iteration
-    \item Let $\mathcal{S}_o$ be the sub-optimal SUS group of STAs
+    \item Let $\mathscr{S}$ be a partition on $\mathcal{C}$. It is a set containing the SUS groups
+    \item Let $\mathcal{S}_l \in \mathscr{S}$ be the $l^{th}$ sub-optimal SUS group. The elements of $\mathcal{S}$ are STAs.
     \item Let $\alpha$ be the scalar representing the orthogonality requirement of the SUS group
 \end{itemize}
+
+
+\textbf{Algorithm from \cite{1603708}:}
 \begin{enumerate}
     \item Initialization:
     \begin{subequations}
         \begin{align}
             \mathcal{T}_1 &= \lbrace 1 \ldots K \rbrace = \mathcal{C}\\
             i &= 1\\
-            \mathcal{S}_0 &= \lbrace \emptyset \rbrace
+            \mathcal{S}_1 &= \lbrace \emptyset \rbrace
         \end{align}
     \end{subequations}
     Start by populating the candidate set with the entire set of STAs available to the AP. Initialize the SUS group to be an empty set.
@@ -37,19 +41,68 @@ Assume the following definitions:
     \begin{subequations}
         \begin{align}
             \pi(i) &= \arg\max_{k\in \mathcal{T}_i}\Vert \textbf{g}_k \Vert\\
-            \mathcal{S}_o &\longleftarrow \mathcal{S}_o \cup \pi(i)\\
+            \mathcal{S}_1 &= \mathcal{S}_1 \cup \pi(i)\\
             \textbf{h}_i &= \textbf{h}_{\pi(i)}\\
             \textbf{g}_i &= \textbf{g}_{\pi(i)}
         \end{align}
     \end{subequations}
     In this step, the STA with the hightest degree of orthogonality to the remaining candidates is selected as the next STA to be added to the SUS group, $\mathcal{S}_o$. Channel and orthogonality vectors are updated to reflect this selection.
     
-    \item Update the set of candidate STAs based on semi-orthogonality constraint:
+    \item Update the set of candidate STAs based on semi-orthogonality constraint:\\
+    If $\vert \mathcal{S}_1 \vert < M$, then:
     \begin{subequations}
         \begin{align}
             \mathcal{T}_{i+1} &= \bigg\lbrace k\in \mathcal{T}_i,\ k\neq \pi(i)\ \big \vert \ \frac{\vert \textbf{h}_k\textbf{g}_i^*\vert}{\Vert \textbf{h}_k \Vert \Vert \textbf{g}_i\Vert} < \alpha  \bigg\rbrace \\
-            i &\longleftarrow i+1
+            i &= i+1
         \end{align}
     \end{subequations}
+    Else: Terminate algorithm.
     The set of candidate STAs is updated for the next iteration of the algorithm by  removing any STAs that do not meet a minimum orthogonality requirement, determined by $\alpha$.
 \end{enumerate}
+
+
+\textbf{Extension of Algorithm}\\
+The algorithm developed here extends the SUS algorithm developed in \cite{1603708}. The algorithm here takes the set of viable STAs, $\mathcal{C}$, the channel information for each STA $k \in \mathcal{C}$, $\textbf{h}_k$, and a orthogonality threshold, $\alpha$. The algorithm takes this information and partitions $\mathcal{C}$ into semi-orthogonal subsets, $\mathscr{S}$.
+
+The solution provided by this algorithm is only one of many potential partitions on $\mathcal{C}$. That is, the solution provided here is not exhaustive, nor is it unique.
+
+The algorithm essentially wraps the algorithm developed in \cite{1603708} in additional loop that checks to see that all the STS $\in \mathcal{C}$ have been assigned to a SUS group. The algorithm does not guarantee that all groups are the same size; however, it does guarantee that the SUS group size is less than the number of antennas at the AP.
+
+\begin{algorithm}[H]
+ \KwData{\\$\mathcal{C}$ (set of viable STAs);\\$\textbf{h}_k,\ \forall \ k\in\mathcal{C}$ (channel information for each STA);\\
+ $\alpha$ (orthogonality requirement)}
+ \KwResult{$\mathscr{S}$ (SUS partition on $\mathcal{C}$)}
+ initialization;\\
+        $\mathcal{L} = \lbrace 1 \ldots K \rbrace = \mathcal{C}$;\\
+        $\mathcal{T}_1 = \lbrace 1 \ldots K \rbrace = \mathcal{C}$;\\
+        $\mathcal{S}_1 = \lbrace \emptyset \rbrace$;\\
+        $i = 1$;\\
+        $l = 1$;\\
+
+ \While{$\mathscr{L} \neq \lbrace \emptyset \rbrace$}{
+     \While{$\vert \mathcal{S}_l \vert < M$ and $\mathcal{T}_i\neq\lbrace \emptyset \rbrace$}{
+        \For{$\forall\ k \in \mathcal{T}_i$}{
+            $\textbf{g}_k = \textbf{h}_k - \sum_{j=1}^{i-1}\frac{\textbf{h}_k\textbf{g}_j^*}{\Vert \textbf{g}_j \Vert^2}\textbf{g}_j$; \\
+            %&= \textbf{h}_k\bigg(\textbf{I}-\sum_{j=1}^{i-1}\frac{\textbf{g}_k^*\textbf{g}_j}{\Vert \textbf{g}_j \Vert^2}\bigg)
+        }
+        $\pi(i) = \arg\max_{k\in \mathcal{T}_i}\Vert \textbf{g}_k \Vert$;\\
+        $\mathcal{S}_1 = \mathcal{S}_l \cup \pi(i)$;\\
+        $\textbf{h}_i = \textbf{h}_{\pi(i)}$;\\
+        $\textbf{g}_i = \textbf{g}_{\pi(i)}$;\\
+        //Add remaining STA to candidate set for SUS group if it meets SUS threshold\\
+        //Otherwise add to the leftover set $\mathcal{L}$\\
+        \For{$\forall \ k \in \mathcal{T}_i$,$\ k\neq \pi(i)$}{
+            \eIf{$\frac{\vert \textbf{h}_k\textbf{g}_i^*\vert}{\Vert \textbf{h}_k \Vert \Vert \textbf{g}_i\Vert} < \alpha$}{
+                $k \in \mathcal{T}_{i+1}$;\\
+                $k \notin \mathcal{L}$;\\
+            }{
+                $k \in \mathcal{L}$;\\
+                $k \notin \mathcal{T}_{i+1}$;\\
+            }  
+        }
+        $i = i + 1$;\\
+    }
+    $l = l+1$;
+ }
+ \caption{Semi-orthogonal user selection algorithm}
+\end{algorithm}
