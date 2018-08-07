@@ -92,15 +92,17 @@ Therefore the associated PDF and CDF become:
 \end{equation}
 \underline{\textbf{(End aside)}}
 
-Returning to the practical case at hand, we have  $\textbf{h}_i$ which is a circularly symmetric Gaussian random variable with zero mean and variance  $\frac{1}{2m}$. Recall that the length of this vector is the same as the number of transmit antennas, $m$. We can apply Eq. (\ref{eq:ch_sq_scaled}) from the aside discussion in order to develop an expression for the CDF of the channel norm. The CDF of the channel norm will be denoted by $F_{\Vert\textbf{hi}\Vert^2}(m,h_m)$, where $h_m$ are realizations of the random variable formed by the channel norm. 
+Returning to the practical case at hand, we have  $\textbf{h}_i$ which is a circularly symmetric Gaussian random variable with zero mean and variance  $\frac{1}{2m}$. Recall that the length of this vector is the same as the number of transmit antennas, $m$. We can apply Eq. (\ref{eq:ch_sq_scaled}) from the aside discussion in order to develop an expression for the CDF of the channel norm. The CDF of the channel norm will be denoted by $F_{\Vert\textbf{hi}\Vert^2}(m,\rho)$, where $\rho$ are realizations of the random variable formed by the channel norm. 
 
 Each term in the $m$-length vector, $\textbf{h}_i$ is represented by two normal random variables: one for the real part and one for the imaginary part. When forming the L2 norm of the $m$-length vector, each multiplication forms a sum of length four where each of the arguments of the sum are a product of two random variables. Namely, the sum takes the form real$\cdot$real + real$\cdot$imaginary + imaginary$\cdot$real+ complex$\cdot$complex. Even though this sum can be simplified to a complex number, each term in the sum adds a degree of freedom to the resulting Chi-squared distribution. Thus, when forming the CDF , the expression becomes:
 
 \begin{equation}\label{eq:ch_sq_cdf_chan}
     \begin{aligned}
-        F_{\Vert\textbf{hi}\Vert^2}(m,h_m) = \Gamma_n(2m/2,mx)
+        F_{\Vert\textbf{hi}\Vert^2}(m,\rho)& = \Gamma_n(2m/2,m\rho)\\
+        &= Pr[\Vert\textbf{h}_i\Vert^2 \leq \rho]
     \end{aligned}
 \end{equation}
+ Thus, the probability that $\Vert\textbf{h}i\Vert^2$ lands in the shell between radii $\rho^+,\ \rho^-$ is a subtraction of the respective CDF expressions (shown in Eq. (\ref{eq:p_s})).
 
 Now we turn our attention to Swannack's expression of probabilities associated with the orthogonality requirement, rather than the SNR requirement. Swannack develops a lower bound on the probability associated with the orthogonality constraint, $p_\perp$, as:
 \begin{equation}\label{eq:p_perp}
