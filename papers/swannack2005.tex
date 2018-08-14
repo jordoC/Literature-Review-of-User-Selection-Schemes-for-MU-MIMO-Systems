@@ -37,67 +37,11 @@ The results shown in Fig. \ref{fig:swannack_fig5a} are developed a geometric int
 
 The geometric analog of user $i$'s channel, $\textbf{h}_i$, satisfying the SNR requirement is that $\Vert\textbf{h}_i\Vert^2$ lies in the real spherical 2$m$ shell between $\rho^-$ and $\rho^+$. The geometric analog of the orthogonality requirement is that the angle formed between any two channels in the SUS group are greater than $\arccos{(\frac{\epsilon}{\rho^+})}$. First we consider SNR requirement developed by Swannack.
 
-In the complex-channel case presented by Swannack, the probability that the channel satisfies SNR requirements is given by:
-\begin{equation}\label{eq:p_s}
-    \begin{aligned}
-        p_s = \Gamma_n(2m,m\rho^-) - \Gamma_n(2m,m\rho^+)
-    \end{aligned}
-\end{equation}
+It is assumed that $\textbf{h}_i$ is a circularly symmetric Gaussian random variable with zero mean and variance  $\frac{1}{2m}$. Therefore the L2 norm of the channel will follow a Gamma distribution, since the L2 norm is essentially a sum of squared normally distributed random variables with zero mean constant variance $\neq 1$. It is also assumed that the SUS group size is equal to the number of transmit antennas, m: $\vert \mathcal{S}_a\vert = m$. Note that the incomplete gamma function in (\ref{eq:p_s}) are assumed to be normalized. A more detailed discussion of manipulation of normal distributions, associated Gamma distributions is provided in the appendices. 
 
-The above expression assumes that $\textbf{h}_i$ is a circularly symmetric Gaussian random variable with zero mean and variance  $\frac{1}{2m}$. Therefore the L2 norm of the channel will follow a Chi-squared distribution with $\vert \mathcal{S}_a\vert$ degrees of freedom (ie. size of the SUS group). The above expression also assumes that the SUS group size is equal to the number of transmit antennas, m: $\vert \mathcal{S}_a\vert = m$. Note that the incomplete gamma function in (\ref{eq:p_s}) are assumed to be normalized. A more detailed description of the derivation of this equation will be discussed in the following aside. Resulting comments from the discussion will then be related back to this expression.\\
-\underline{\textbf{Aside: derivation and notes regarding Eq. (\ref{eq:p_s})}:}
+ We can apply Eq. (\ref{eq:gamma_scaled}) from the appendix in order to develop an expression for the CDF of the channel norm. The CDF of the channel norm will be denoted by $F_{\Vert\textbf{hi}\Vert^2}(m,\rho)$, where $\rho$ are realizations of the random variable formed by the channel norm. 
 
- Given a standard normal random variable, $X_k\sim\mathcal{N}(0,1)$, corresponding realization, $x_k$, probability density function (PDF) $f_Xk(x_k)$, and cumulative distribution function (CDF) $F_Xk(x_k)$:
-
-\begin{equation}\label{eq:normal}
-    \begin{aligned}
-        f_Xk(x_k) &= \frac{1}{\sqrt{2\pi}}e^{-\frac{x_k^2}{2}}\\
-        F_Xk(x_k) &=\frac{1}{2}(1+\text{erf}(\frac{x_k}{\sqrt{2}}))
-    \end{aligned}
-\end{equation}
-
-Let $\textbf{X}$ denote an iid vector of length $K$. Each element of $\textbf{X}$ follows the standard normal distribution given in Eq. (\ref{eq:normal}, that is, $X_i\in\textbf{X}\ \forall i = 1,2\ldots K$.
-
-Let $Y$ be the random variable representing the L2 norm of the vector $\textbf{X}$:
-\begin{equation}\label{eq:ch_sq_sum}
-    \begin{aligned}
-        Y &= \Vert \textbf{X} \Vert^2\\
-          &= \sum_{k = 1}^K X_kX_k^*
-    \end{aligned}
-\end{equation}
-
-It is well-known that a K-length sum of square standard normal random variables results in a Chi-squared distribution.The PDF and CDF of the Chi-squared distribution associated with $Y$ in terms of realizations $y = \sum_{k=0}^K x_k x_k^*$ are given by $f_Y(K,y)$, and $F_Y(K,y)$, respectively:
-\begin{equation}\label{eq:ch_sq}
-    \begin{aligned}
-        f_Y(y;K) &= \frac{1}{2^{K/2}\Gamma(K/2)}y^{\frac{K-2}{2}}e^{\frac{-y}{2}};\\
-        F_Y(y;K) &= \frac{\gamma(K/2,y/2)}{\Gamma(K/2)}\\
-        &= \Gamma_n(K/2,y/2)
-    \end{aligned}
-\end{equation}
-
-Now we wish to investigate the case where the normal distributions are no longer standard. Rather, they are zero-mean normal distributions with variance $\sigma^2$. Let $Z$ denote the scaled sum:
-\begin{equation}\label{eq:ch_sq_sum_scaled}
-    \begin{aligned}
-        Z &= \Vert \sigma \textbf{X} \Vert^2\\
-          &= \sigma^2 \sum_{k = 1}^K X_kX_k^*
-    \end{aligned}
-\end{equation}
-
-In this case we arrive at a Gamma distribution rather than the special case of the Chi-squared distribution. The PDF and CDF become:
-\begin{equation}\label{eq:gamma_scaled}
-    \begin{aligned}
-        f_\Gamma(\gamma; n,\theta) &\triangleq \frac{\gamma^{n-1}}{\Gamma(n)\theta^n}e^{\frac{-\gamma}{\theta}} \ \forall \gamma > 0;\\
-        %&= \frac{1}{\sigma^{K/2}2^{K/2}\Gamma(K/2)}z^{\frac{K-2}{2}}e^{\frac{-z}{2\sigma^2}};\\
-        f_Z(z; K, \sigma) &= f_\Gamma(z;K/2,2\sigma^2);\\
-        F_Z(z;K,\sigma) &= \Gamma_n(K/2,z/(2\sigma))
-    \end{aligned}
-\end{equation}
-where $k$ and $\theta$ are the conventional parameters used to parametrize the PDF of the gamma function, $f_Z(z;k,\theta)$.\\
-\underline{\textbf{(End aside)}}
-
-Returning to the practical case at hand, we have  $\textbf{h}_i$ which is a circularly symmetric Gaussian random variable with zero mean and variance  $\frac{1}{2m}$. Recall that the length of this vector is the same as the number of transmit antennas, $m$. We can apply Eq. (\ref{eq:gamma_scaled}) from the aside discussion in order to develop an expression for the CDF of the channel norm. The CDF of the channel norm will be denoted by $F_{\Vert\textbf{hi}\Vert^2}(m,\rho)$, where $\rho$ are realizations of the random variable formed by the channel norm. 
-
-Each term in the $m$-length vector, $\textbf{h}_i$ is represented by two normal random variables: one for the real part and one for the imaginary part. When forming the L2 norm of the $m$-length vector, each multiplication forms a sum of length four where each of the arguments of the sum are a product of two random variables. Namely, the sum takes the form real$\cdot$real + real$\cdot$imaginary + imaginary$\cdot$real+ complex$\cdot$complex. Even though this sum can be simplified to a complex number, each term in the sum adds a degree of freedom to the resulting Chi-squared distribution. Thus, when forming the CDF , the expression becomes:
+Each term in the $m$-length vector, $\textbf{h}_i$ is represented by two normal random variables: one for the real part and one for the imaginary part. When forming the L2 norm of the $m$-length vector, each multiplication forms a sum of length four where each of the arguments of the sum are a product of two random variables. Namely, the sum takes the form real$\cdot$real + real$\cdot$imaginary + imaginary$\cdot$real + complex$\cdot$complex. Even though this sum can be simplified to a complex number, each term in the sum adds a degree of freedom to the resulting Gamma distribution. Thus, when forming the CDF , the expression becomes:
 
 \begin{equation}\label{eq:ch_sq_cdf_chan}
     \begin{aligned}
@@ -105,7 +49,13 @@ Each term in the $m$-length vector, $\textbf{h}_i$ is represented by two normal 
         &= Pr[\Vert\textbf{h}_i\Vert^2 \leq \rho]
     \end{aligned}
 \end{equation}
- Thus, the probability that $\Vert\textbf{h}i\Vert^2$ lands in the shell between radii $\rho^+,\ \rho^-$ is a subtraction of the respective CDF expressions (shown in Eq. (\ref{eq:p_s})).
+
+Thus, in the complex-channel case presented by Swannack, the probability that the channel satisfies SNR requirements, namely that $\Vert\textbf{h}i\Vert^2$ lands in the shell between radii $\rho^+,\ \rho^-$,  is given by the subtraction of the respective CDF expressions:
+\begin{equation}\label{eq:p_s}
+    \begin{aligned}
+        p_s = \Gamma_n(2m,m\rho^-) - \Gamma_n(2m,m\rho^+)
+    \end{aligned}
+\end{equation}
 
 Now we turn our attention to Swannack's expression of the conditional probability that the orthogonality requirement is met, given that the channel norm falls between $\rho^-$ and $\rho^+$. The conditional probability is defined as $p_\perp$. Swannack develops a lower bound on the probability associated with the orthogonality constraint, $p_\perp$, as:
 \begin{equation}\label{eq:p_perp}
@@ -162,35 +112,46 @@ Several additional plots investigating impact of changes in SUS group size and n
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In this section we set out to incorporate a path loss model into Swannack's results. An exponential path loss model is assumed. The distribution of users (or STAs) is assumed to follow a two-dimensional Poisson point process(PPP); therefore the path loss is stochastic in nature. The incorporation of a path loss model impacts the expression for $p_s$ given in Eq. (\ref{eq:p_s}); however, it does not impact $p_\perp$ since this probability is conditioned on the channel norm falling into the shell between radii $\rho^-,\rho^+$.
 
-When we incorporate path loss, the channel vector, $\textbf{h}_i$ is no longer composed of standard normal random variables. Rather, each of the random variables is scaled by a path loss factor.
-
-In order to incorporate path loss  now examine the final case where we have $k$ zero-mean random variables, each of which has a (potentially) unique variance with respect to other normal random variables. Let $\Tilde{X_k}\sim\mathcal{N}(0,\sigma_k^2)\ \in \Tilde{\textbf{X}}$ Forming the sum of squares results in the following expression:
-\begin{equation}\label{eq:gamma_sum_indep_scaled}
+When we incorporate path loss, the channel vector, $\textbf{h}_i$ is no longer composed of standard normal random variables. Rather, each of the random variables is scaled by a path loss factor. Therefore, the channel becomes:
+\begin{equation}\label{eq:pl_channel}
     \begin{aligned}
-        \Tilde{Z} &= \Vert \Tilde{\textbf{X}} \Vert^2 \\
-        &= \sum_{k = 1}\Tilde{X_k}\Tilde{X_k^*}\\
-        &= \sum_{k = 1}^K \sigma_k^2X_kX_k^*
+        \Tilde{\bold{h}_i} &= \sqrt{\alpha_i}\textbf{h}_i \sim\mathcal{N}(0,\frac{\alpha_i)}{2m};\\
+        \alpha_i &= d_i^{-\eta};\\
+        d_i &\in \Phi_{2D} \sim P[N(A)=k;\lambda] = \frac{k^{\lambda A}}{k!}e^{-\lambda A}
     \end{aligned}
 \end{equation}
-
-
-In order to arrive at an expression for the PDF and CDF for the random variable $\Tilde{Z}$, we first consider the argument of the sum. We know that $\Tilde{X_k}\Tilde{X_k} = \vert \Tilde{X_k}\vert^2\sim\mathcal{G}(1/2, 2\sigma_k^2)$, where $\mathcal{G}(n,\theta)$ denotes a Gamma-distributed random variable with PDF $f_\Gamma(n,\theta)$. Therefore, the sum in Eq. (\ref{eq:gamma_sum_indep_scaled}) becomes a sum of $K$ independent Gamma-distributed random variables. We define the parameter vectors: $\theta_k \in \boldsymbol{\theta},\ n_k \in \textbf{n} \ \forall k = 1,2,\ldots K$ that contain the parameters for each of the $K$ random variables in the sum forming $\Tilde{Z}$. Investigation into developing expressions for such a sum has been conducted in \cite{Moschopoulos1985} and \cite{Mathai1982}; we adopt the recursive formulation developed in the prior. The expression for the PDF of $\Tilde{Z}$ is given as follows:\\
-\begin{equation}\label{eq:gamma_sum_indep_scaled_pdf}
+The distance for the $i^{th}$ STA,$d_i$, follows a PPP, as previously mentioned. Therefore, the variance of the normal distribution becomes stochastic. This implies that the parameters of the resulting Gamma distribution, representing the channel norm, will also be stochastic. The CDF expression incorporating path loss, which may be compared to Eq. (\ref{eq:ch_sq_cdf_chan}), is given by:
+\begin{equation}\label{eq:ch_sq_cdf_chan_pl}
     \begin{aligned}
-        f_{\Tilde{Z}}(\Tilde{z};\boldsymbol{\theta},\textbf{n}) &= C\sum_{l = 0}^\infty \delta_l \Tilde{z}^{\zeta+l-1}\frac{e^{-\Tilde{z}/\theta_1}}{\Gamma(\zeta+l)\theta_1^{\zeta+l}} \ \forall \Tilde{z} > 0; \\
-        where:\\
-        \theta_1 &= \min_k(\theta_k) \ \forall k=1,2,\ldots K;\\
-        \zeta &= \sum_{k = 1}^K n_k;\\
-        \alpha_p &= \sum_{k = 1}^K \frac{n_k(1-\theta_1/\theta_k)^p}{p}\\
-        C &= \prod_{k = 1}^K \frac{\theta_1}{\theta_k}^{n_k};\\
-        \delta_{l+1} &= \frac{1}{l+1}\sum_{p = 1}^{l+1} p\alpha_p\delta_{l+1-p};\\
-        \delta_0 &= 1
+        F_{\Vert\Tilde{\bold{h}i}\Vert^2}(\rho;m,\alpha_i)& = \Gamma_n(2m,m\rho/\alpha_i)\\
+        &= Pr[\Vert\Tilde{\bold{h}_i}\Vert^2 \leq \rho]
     \end{aligned}
 \end{equation}
+Although the expressions in Eqs. (\ref{eq:ch_sq_cdf_chan}),(\ref{eq:ch_sq_cdf_chan_pl}), appear similar at first glance, the stochastic parameter $\alpha_i$ in Eq. (\ref{eq:ch_sq_cdf_chan_pl}) must be translated into a scalar quantity for the expressions to be comparable.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Such a translation may be formulated as an estimation problem. For example, a minimum mean squared estimation of $\alpha_i$, $\Hat{\alpha_i}$, may be calculated, then $\Hat{\alpha_i}$ may be used in order to find the probability associated with the CDF in Eq. (\ref{eq:ch_sq_cdf_chan_pl}).
+
+This approach has several challenges. Firstly, we must find an expression for the PDF for $\alpha_i$. This PDF, $f_{\alpha i}(\alpha_i;\lambda,\eta)$, is denoted by $\omega(\alpha_i)$ in the context of the estimation discussion. It does not make physical sense to simply apply a transformation to the PPP PMF without considering what the PMF physically represents; applying the exponential transformation directly to the PPP PMF does not result in anything physically sensical or useful. Therefore, we now devise a more physically reasonable approach.
+
+We begin by defining a circle, $C_{di}$, of radius $d_i$ that is centred at the AP. The user $i$ lies on the circle $C_{di}$. Next we define two more circles concentric to $C_{di}$, $C_{di+\Delta}$ and $C_{di-\Delta}$. The radius of $C_{di+\Delta}$ and $C_{di\Delta}$ is $d_i + \Delta$ and $d_i - \Delta$, respectively. Relating these circles back to a physical context we can make several observations. Firstly, since user $i$ lies on the circle $C_{di}$, its path loss will be $\alpha_i = d_i^{-\eta}$.  Secondly, the probability that $k$ STAs lie between the area falling between circles $C_{di-\Delta}$ and $C_{di+\Delta}$ will follow the PMF:
+\begin{equation}\label{eq:ppp_pmf_circle}
+    \begin{aligned}
+        \Phi_{di\pm\Delta} \sim P[N(A_{di\pm\Delta})=k;\lambda] = \frac{(\lambda A_{di\pm\Delta})^k}{k!}e^{-\lambda A_{di\pm\Delta}}
+    \end{aligned}
+\end{equation}
+where $A_{di\pm\Delta}$ is the doughnut-shaped area formed between $C_{di-\Delta}$ and $C_{di+\Delta}$. Thirdly, we note that the homogeneous PPP of STAs is rotation-invariant about the centre of the concentric circles, and invariant on radial translation with respect to the centre of the circles. Therefore, $A_{di\pm\Delta}$ is given by:
+\begin{equation}\label{eq:disk_area}
+    \begin{aligned}
+        A_{di\pm\Delta} &= 2\pi\int_{di-\Delta}^{di+\Delta}r\ dr\\
+        &= 4d_i\Delta
+    \end{aligned}
+\end{equation}
+Notice that as $\Delta \rightarrow 0$, $P[N(A_{di\pm\Delta})=k;\lambda] \rightarrow 0$ as well. However, as $\Delta \rightarrow 0$, the STAs contained in the $A_{di\pm\Delta}$ will have more similar path loss values. If we approximate all the STAs in $\in\ A_{di\pm\Delta}$, to have a path loss of $\alpha_i$, this behaviour becomes a tradeoff between accuracy of the model and probability that another STA will exist in $A_{di\pm\Delta}$.
+
+Such an accuracy-existence tradeoff should be able to be linked back to the original SNR requirement in terms of $\rho^+,\rho^-$ and SUS group existence probability. However, if we crudely ignore the impact truncating STA path loss, the original expression for $p_s$ given in Eq. (\ref{eq:p_s}) remains the same. The bounds of $\rho^-,\rho^+$ will differ from the original values given by Swannack on a case-by-case basis since channel norms will now be attenuated by path loss (ie. original $\rho$ values should also be scalsed by path loss). The expression for existence probability of an SUS group is expected to be impacted by the factors associated with the PPP, namely the value of $\Delta$.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%d%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\subsection{Extending results to relaxed, widely linear orthogonality constraint}
+\subsection{Extending results to relaxed orthogonality constraint}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 We now consider relaxing the orthogonality and SNR constraints, by limiting  requirements to only the real part of the channel inner product and norm. First we introduce the following definitions. Let the  transformation, $\mathcal{T}$, be the transformation of the complex vector in $\mathbb{C}^m$ to a real vector in $\mathbb{R}^{2m}$:
 \begin{equation}\label{eq:complex_real_xform}
@@ -208,16 +169,26 @@ Thus,
 Following from these definitions and Swannack's expression for SUS groups meeting SNR and orthogonality requirements, the relaxed expression for the collection of SUS groups becomes:
 \begin{equation}\label{eq:wl_S_e}
     \begin{aligned}
-        \mathcal{S}_\epsilon = \lbrace \mathcal{S}_a \big|\  \overline{\textbf{h}}_i \overline{\textbf{h}}_j^T<\ \epsilon \ \text{;} \ \rho^-<\Vert \overline{\textbf{h}}_i \Vert^2 < \rho^+\ \forall \ i \neq j \in \mathcal{S}_a \rbrace
+        \mathcal{S}_{\epsilon,\mathfrak{R}} = \lbrace \mathcal{S}_a \big|\  \overline{\textbf{h}}_i \overline{\textbf{h}}_j^T<\ \epsilon_{\mathfrak{R}} \ \text{;} \ \rho^-<\Vert \overline{\textbf{h}}_i \Vert^2 < \rho^+\ \forall \ i \neq j \in \mathcal{S}_a \rbrace
     \end{aligned}
 \end{equation}
 
-The geometric model developed by Swannack is still useful in the relaxed widely linear case given in (\ref{eq:wl_S_e}). However, further discussion regarding expressions for relaxed $p_s$, $p_\perp$ is required.
+The geometric model developed by Swannack is still useful in the relaxed widely linear case given in (\ref{eq:wl_S_e}). However, further discussion regarding expressions for relaxed $p_s$, $p_\perp$ is required. SNR requirements, associated with $p_s$ will be discussed first, then SIR requirements, associated with $p_\perp$ will be discussed.
 
-The Chi-squared distribution used to derive the expression in (\ref{eq:p_s}), now only has 2$m$ degrees of freedom, rather than 4$m$ degrees of freedom. Therefore the expression for relaxed (widely linear) $p_s$ becomes:
+For the relaxed SNR requirement,the Gamma distribution used to derive the expression in (\ref{eq:p_s}), now only has 2$m$ degrees of freedom, rather than 4$m$ degrees of freedom since the inner product form a sum of 2$m$ real components. Therefore the expression for relaxed probability the norm will fall in the shell defined by radii $\rho^-,\rho^+$, $p_{s,\mathfrak{R}}$ becomes:
 \begin{equation}\label{eq:p_s_real}
     \begin{aligned}
-        p_{s,wl} = \Gamma_n(m,m\rho^-) - \Gamma_n(m,m\rho^+)
+        p_{s,\mathfrak{R}} = \Gamma_n(m,m\rho^-) - \Gamma_n(m,m\rho^+)
     \end{aligned}
 \end{equation}
 
+Turning our attention now to the SIR requirements, we must now compare the expressions $\overline{\textbf{h}}_i \overline{\textbf{h}}_j^T < \epsilon_\mathfrak{R}$ and $\vert \textbf{h}_i\textbf{h}_j^H \vert < \epsilon$. Specifically, we set out to determine the relationship between $\epsilon$ and $\epsilon_\mathfrak{R}$ such that the two inner products are comparable or equivalent.
+
+One such approach is to view the relaxed inner product that lives in $\mathbb{R}^{2m}$ as a widely linear transformation of the original complex expression that lives in $\mathbb{C}^{m}$. As shown in \cite{Adali2011}, the inner products can be related as follows:
+\begin{equation}\label{eq:wl_inner_product}
+    \begin{aligned}
+       \overline{\textbf{h}}_i \overline{\textbf{h}}_j^T = \frac{1}{2}\vert \textbf{h}_i\textbf{h}_j^H \vert
+    \end{aligned}
+\end{equation}
+A proof of this expression is offered in the Appendices.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

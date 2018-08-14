@@ -1,0 +1,50 @@
+In this appendix we examine inner products of widely linear transformations. We begin by giving several definitions. Let $\textbf{h}_i,\textbf{h}_j \in \mathbb{C}^m$ be a complex vectors of length $m$. Each element of $\textbf{h}_i$ and $\textbf{h}_j$ is defined as:
+%\xrightarrow{\mathcal{T}} \overline{\textbf{h}}_i = [ \mathfrak{Re} \lbrace \textbf{h}_i \rbrace \ \mathfrak{Im}\lbrace \textbf{h}_i \rbrace ] \in \mathbb{R}^{2m}
+
+\begin{equation}\label{eq:elm_chan_vec}
+    \begin{aligned}
+    h_{ik}\in\textbf{h}_i &= a_k+jb_k\ \forall k =1,2,\ldots m \\
+    h_{jk}\in\textbf{h}_j &= c_k+jd_k\ \forall k =1,2,\ldots m
+    \end{aligned}
+\end{equation}
+Equivalently, in vector form, $\textbf{h}_i = \textbf{a}+j\textbf{b}$ etc.
+
+We also define the transformation $\mathcal{T}$ as the transformation of the complex vector $\textbf{h}_i\in\mathbb{C}^m$ to its stacked real counterpart in $\mathbb{R}^{2m}$:
+\begin{equation}\label{eq:app_complex_real_xform}
+    \begin{aligned}
+        \textbf{h}_i \in \mathbb{C}^m \xrightarrow{\mathcal{T}} \overline{\textbf{h}}_i = [ \textbf{a} \ \textbf{b} ] \in \mathbb{R}^{2m}
+    \end{aligned}
+\end{equation}
+Thus the inner product between vectors $\overline{\textbf{h}}_i,\overline{\textbf{h}}_j$ becomes:
+\begin{equation}\label{eq:app_inner_product_wl_sum}
+    \begin{aligned}
+       \overline{\textbf{h}}_i\overline{\textbf{h}}_j^T &= [\textbf{a}\ \textbf{b}]\cdot[\textbf{c}^T\ \textbf{d}^T]^T\\
+       &= \sum_{k=1}^m a_kc_k+b_kd_k
+    \end{aligned}
+\end{equation}
+
+Similarly, the magnitude of the inner product between vectors $\textbf{h}_i,\textbf{h}_j$ becomes
+\begin{equation}\label{eq:app_inner_product_sum}
+    \begin{aligned}
+       \vert\textbf{h}_i\textbf{h}_j^H\vert &= \vert[\textbf{a}+j\textbf{b}]\cdot[\textbf{c}^T-j\textbf{d}^T]^T\vert\\
+       &= \sqrt{\sum_{k=1}^m (a_kc_k+b_kd_k)^2+(b_kc_k-a_kd_k)^2}
+    \end{aligned}
+\end{equation}
+
+In the context under investigation, the channel vectors are assumed to be iid normal vectors. Therefore, each component of the vectors are the same. Thus, for Eqs. (\ref{eq:app_inner_product_wl_sum},\ref{eq:app_inner_product_sum}), $a_k = b_k = c_k = d_k$. Therefore, the expressions can be given as:
+\begin{equation}\label{eq:app_inner_product_sum}
+    \begin{aligned}
+       \vert\textbf{h}_i\textbf{h}_j^H\vert &= \sqrt{\sum_{k=1}^m 4a_k^4}\\
+       &= 2\sqrt{\sum_{k=1}^m a_k^2}\\
+       &= \sqrt{(\sum2{a_k^2})^2 - 4\sqrt{\prod a_k}}\\
+       &= \sqrt{(\overline{\textbf{h}}_i \overline{\textbf{h}}_j^T)^2 - 4\sqrt{\prod a_k}}\\
+       ?&= \sqrt{4(\overline{\textbf{h}}_i \overline{\textbf{h}}_j^T)^2 }\\
+       &= 2\overline{\textbf{h}}_i \overline{\textbf{h}}_j^T\\
+    \end{aligned}
+\end{equation}
+TODO: finish this proof up so we end up as below (something has gone wrong).
+\begin{equation}\label{eq:app_inner_product}
+    \begin{aligned}
+       \overline{\textbf{h}}_i \overline{\textbf{h}}_j^T = \frac{1}{2}\vert \textbf{h}_i\textbf{h}_j^H \vert
+    \end{aligned}
+\end{equation}
